@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Drink {
     @Column(columnDefinition = "nvarchar(255)")
     private String name;
 
-    private Long price;
+    private Double price;
 
     @Column(columnDefinition = "nvarchar(MAX)")
     private String description;
@@ -35,4 +36,14 @@ public class Drink {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany()
+    @JoinTable(name = "drink_toppings",
+            joinColumns = @JoinColumn(name = "drink_id"),
+            inverseJoinColumns = @JoinColumn(name = "topping_id")
+    )
+    private List<Topping> toppings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "drink", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<DrinkSize> drinkSizes = new ArrayList<>();
 }
