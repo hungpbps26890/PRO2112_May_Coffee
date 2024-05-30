@@ -1,0 +1,43 @@
+package com.poly.coffee.controller;
+
+import com.poly.coffee.constant.StatusCode;
+import com.poly.coffee.dto.request.PaymentMethodBankRequest;
+import com.poly.coffee.dto.response.ApiResponse;
+import com.poly.coffee.dto.response.PaymentMethodBankResponse;
+import com.poly.coffee.entity.PaymentMethodBank;
+import com.poly.coffee.service.PaymentMethodBankService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/payment-method-banks")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class PaymentMethodBankController {
+
+    PaymentMethodBankService service;
+
+    @GetMapping
+    public List<PaymentMethodBank> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public PaymentMethodBankResponse getById(@PathVariable("id") Long id) {
+        return service.getById(id);
+    }
+
+    @PostMapping
+    public ApiResponse<PaymentMethodBankResponse> post(@RequestBody PaymentMethodBankRequest request) {
+        return ApiResponse.<PaymentMethodBankResponse>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .message("Created successfully!")
+                .result(service.create(request))
+                .build();
+    }
+
+}
