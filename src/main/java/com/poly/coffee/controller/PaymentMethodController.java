@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/payment-methods")
 @RequiredArgsConstructor
@@ -22,13 +23,20 @@ public class PaymentMethodController {
     PaymentMethodService service;
 
     @GetMapping
-    public List<PaymentMethod> getAll() {
-        return service.getAll();
+    public ApiResponse<List<PaymentMethodResponse>> getAll() {
+        return ApiResponse.<List<PaymentMethodResponse>>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .result(service.getAll())
+                .build();
     }
 
     @GetMapping("/{id}")
-    public PaymentMethodResponse getById(@PathVariable("id") Integer id) {
-        return service.getById(id);
+    public ApiResponse<PaymentMethodResponse> getById(@PathVariable("id") Integer id) {
+        return ApiResponse.<PaymentMethodResponse>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .message("Created successfully!")
+                .result(service.getById(id))
+                .build();
     }
 
     @PostMapping

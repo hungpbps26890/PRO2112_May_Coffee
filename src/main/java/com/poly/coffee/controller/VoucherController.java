@@ -1,11 +1,11 @@
 package com.poly.coffee.controller;
 
 import com.poly.coffee.constant.StatusCode;
-import com.poly.coffee.dto.request.OrderStatusRequest;
+import com.poly.coffee.dto.request.VoucherRequest;
 import com.poly.coffee.dto.response.ApiResponse;
-import com.poly.coffee.dto.response.OrderStatusResponse;
-import com.poly.coffee.entity.OrderStatus;
-import com.poly.coffee.service.OrderStatusService;
+import com.poly.coffee.dto.response.VoucherResponse;
+import com.poly.coffee.entity.Voucher;
+import com.poly.coffee.service.VoucherService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,33 +15,32 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/order-statuses")
+@RequestMapping("/api/vouchers")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class OrderStatusController {
+public class VoucherController {
 
-    OrderStatusService service;
+    VoucherService service;
 
     @GetMapping
-    public ApiResponse<List<OrderStatusResponse>> getAll() {
-        return ApiResponse.<List<OrderStatusResponse>>builder()
+    public ApiResponse<List<VoucherResponse>> getAll() {
+        return ApiResponse.<List<VoucherResponse>>builder()
                 .code(StatusCode.SUCCESS_CODE)
                 .result(service.getAll())
                 .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<OrderStatusResponse> getById(@PathVariable("id") Integer id) {
-        return ApiResponse.<OrderStatusResponse>builder()
+    public ApiResponse<VoucherResponse> getById(@PathVariable("id") Integer id) {
+        return ApiResponse.<VoucherResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
                 .result(service.getById(id))
                 .build();
     }
 
     @PostMapping
-    public ApiResponse<OrderStatusResponse> post(@RequestBody OrderStatusRequest request) {
-        return ApiResponse.<OrderStatusResponse>builder()
+    public ApiResponse<VoucherResponse> post(@RequestBody VoucherRequest request) {
+        return ApiResponse.<VoucherResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
                 .message("Created successfully!")
                 .result(service.create(request))
@@ -49,9 +48,9 @@ public class OrderStatusController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<OrderStatusResponse> put(@PathVariable("id") Integer id,
-                                        @RequestBody OrderStatusRequest request) {
-        return ApiResponse.<OrderStatusResponse>builder()
+    public ApiResponse<VoucherResponse> put(@PathVariable("id") Integer id,
+                                        @RequestBody VoucherRequest request) {
+        return ApiResponse.<VoucherResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
                 .message("Created successfully!")
                 .result(service.update(id, request))

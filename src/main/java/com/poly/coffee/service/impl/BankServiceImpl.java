@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,11 @@ public class BankServiceImpl implements BankService {
 
 
     @Override
-    public List<Bank> getAll() {
-        return repository.findAll();
+    public List<BankResponse> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toBankResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

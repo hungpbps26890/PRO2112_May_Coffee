@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +24,11 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
 
     @Override
-    public List<PaymentMethod> getAll() {
-        return repository.findAll();
+    public List<PaymentMethodResponse> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toPaymentMethodResponse)
+                .collect(Collectors.toList());
     }
 
     @Override

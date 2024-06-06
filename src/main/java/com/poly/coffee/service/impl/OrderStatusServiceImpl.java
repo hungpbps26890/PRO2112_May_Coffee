@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,11 @@ public class OrderStatusServiceImpl implements OrderStatusService {
 
 
     @Override
-    public List<OrderStatus> getAll() {
-        return repository.findAll();
+    public List<OrderStatusResponse> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(mapper::toOrderStatusResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
