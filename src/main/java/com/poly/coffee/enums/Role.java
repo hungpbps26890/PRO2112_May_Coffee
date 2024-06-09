@@ -1,2 +1,7 @@
-package com.poly.coffee.enums;public enum Role {
+package com.poly.coffee.enums;
+
+public enum Role {
+    ADMIN,
+    STAFF,
+    CUSTOMER
 }

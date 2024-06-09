@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
+    UNAUTHENTICATED(405, "Unauthentication"),
     UNCATEGORIZED_EXCEPTION(999, "Uncategorized exception"),
     USER_EXISTED(1001, "User existed"),
     USER_NOT_FOUND(1002, "User not found"),
@@ -13,6 +14,7 @@ public enum ErrorCode {
     DRINK_NOT_FOUND(1004, "Drink not found"),
     TOPPING_NOT_FOUND(1007, "Topping not found"),
     SIZE_NOT_FOUND(1008, "Size not found"),
+    ROLE_NOT_FOUND(1009, "Role not found")
     ;
 
     private final int code;
