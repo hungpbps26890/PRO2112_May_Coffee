@@ -1,14 +1,17 @@
-package com.poly.coffee.dto.response;
+package com.poly.coffee.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
-    String token;
-    boolean authenticated;
+public class RoleRequest {
+    String name;
+    String description;
+    Set<String> permissions;
 }

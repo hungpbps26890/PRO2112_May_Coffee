@@ -11,5 +11,4 @@ import java.util.List;
 public interface DrinkSizeRepository extends JpaRepository<DrinkSize, DrinkSizeKey> {
 
     List<DrinkSize> findByDrinkId(Long drinkId);
-
 }
