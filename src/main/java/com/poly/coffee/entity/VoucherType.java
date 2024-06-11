@@ -1,11 +1,14 @@
 package com.poly.coffee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,4 +21,7 @@ public class VoucherType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String name;
+    @JsonIgnore
+    @OneToMany(mappedBy = "voucherType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<Voucher> vouchers;
 }

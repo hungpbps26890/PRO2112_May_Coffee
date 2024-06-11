@@ -1,5 +1,6 @@
 package com.poly.coffee.dto.response;
 
+import com.poly.coffee.entity.VoucherType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +20,5 @@ public class VoucherResponse {
     LocalDateTime beginDate;
     LocalDateTime endDate;
     String image;
+    VoucherType voucherType;
 }
