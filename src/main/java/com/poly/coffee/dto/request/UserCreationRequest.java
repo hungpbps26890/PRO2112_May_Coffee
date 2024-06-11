@@ -1,5 +1,6 @@
 package com.poly.coffee.dto.request;
 
+import com.poly.coffee.validator.DobConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,14 +12,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRequest {
+public class UserCreationRequest {
+
+    String username;
+
     String email;
+
+    @Size(min = 8, message = "INVALID_PASSWORD")
     String password;
+
     String firstName;
     String lastName;
-    Boolean isGender;
-    LocalDate birthday;
-    String phoneNumber;
-    String image;
-    Boolean isActive;
+
+    @DobConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate dob;
 }

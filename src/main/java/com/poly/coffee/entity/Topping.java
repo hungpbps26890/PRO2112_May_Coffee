@@ -30,4 +30,8 @@ public class Topping {
     @JsonIgnore
     @ManyToMany(mappedBy = "toppings")
     private List<Drink> drinks = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "toppings")
+    private List<CartItem> cartItems = new ArrayList<>();
 }
