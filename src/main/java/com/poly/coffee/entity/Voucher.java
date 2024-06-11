@@ -24,4 +24,7 @@ public class Voucher {
     LocalDateTime beginDate;
     LocalDateTime endDate;
     String image;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "voucher_type_id", referencedColumnName = "id")
+    VoucherType voucherType;
 }
