@@ -14,5 +14,6 @@ public class UserUpdateMyInfoRequest {
     String email;
     String firstName;
     String lastName;
+    String phoneNumber;
     LocalDate dob;
 }
