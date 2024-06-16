@@ -1,10 +1,6 @@
 package com.poly.coffee.config;
 
-import com.poly.coffee.entity.Role;
 import com.poly.coffee.entity.User;
-import com.poly.coffee.enums.RoleEnum;
-import com.poly.coffee.exception.AppException;
-import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.repository.RoleRepository;
 import com.poly.coffee.repository.UserRepository;
 import lombok.AccessLevel;
@@ -15,9 +11,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -43,7 +36,11 @@ public class ApplicationInitConfig {
                 User user = User.builder()
                         .username("admin")
                         .password(passwordEncoder.encode("12345678"))
+<<<<<<< HEAD
                         //.roles(roles)
+=======
+//                        .roles(roles)
+>>>>>>> ba873e519d5e684103488efae970e344bb0a5fda
                         .build();
 
                 userRepository.save(user);
