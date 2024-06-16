@@ -23,13 +23,10 @@ public enum ErrorCode {
     DRINK_NOT_FOUND(3001, "Drink not found", HttpStatus.NOT_FOUND),
     TOPPING_NOT_FOUND(4001, "Topping not found", HttpStatus.NOT_FOUND),
     SIZE_NOT_FOUND(5001, "Size not found", HttpStatus.NOT_FOUND),
-<<<<<<< HEAD
-    NOT_FOUND(6001, "Not found", HttpStatus.NOT_FOUND),
-    NOT_EXISTS(6002, "Not exists", HttpStatus.NOT_FOUND),
-    INVALID_DATA(6003, "Data not valid", HttpStatus.BAD_REQUEST)
-=======
+    NOT_FOUND(6002, "Not found", HttpStatus.NOT_FOUND),
+    NOT_EXISTS(6003, "Not exists", HttpStatus.NOT_FOUND),
+    INVALID_DATA(6004, "Data not valid", HttpStatus.BAD_REQUEST),
     CART_ITEM_NOT_FOUND(6001, "Cart item not found", HttpStatus.NOT_FOUND),
->>>>>>> ba873e519d5e684103488efae970e344bb0a5fda
     ;
 
     private final int code;

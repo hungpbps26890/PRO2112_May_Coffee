@@ -26,7 +26,7 @@ public class OrderResponse {
     OrderStatus orderStatus;
     PaymentMethodBank paymentMethodBank;
     UserResponse user;
-    Long addressId;
+    Address address;
     Long reviewId;
     List<OrderDetail> orders;
 }

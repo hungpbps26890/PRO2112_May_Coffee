@@ -25,7 +25,7 @@ public class OrderRequest {
     OrderStatus orderStatus;
     PaymentMethodBank paymentMethodBank;
     User user;
-    Long addressId;
+    Address address;
     Long reviewId;
     List<OrderDetail> orders;
 }

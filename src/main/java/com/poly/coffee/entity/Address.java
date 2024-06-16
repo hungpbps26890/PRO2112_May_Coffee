@@ -36,7 +36,7 @@ public class Address implements Serializable {
 	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<UserAddress> userAddresses = new ArrayList<>();
 	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "address")
-//	private List<Order> orders;
+	@JsonIgnore
+	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Order> orders = new ArrayList<>();
 }
