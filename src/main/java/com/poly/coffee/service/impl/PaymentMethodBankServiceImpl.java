@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.PaymentMethodBankRequest;
 import com.poly.coffee.dto.response.PaymentMethodBankResponse;
 import com.poly.coffee.entity.PaymentMethodBank;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.PaymentMethodBankMapper;
 import com.poly.coffee.repository.BankRepository;
 import com.poly.coffee.repository.PaymentMethodBankRepository;
@@ -38,19 +40,12 @@ public class PaymentMethodBankServiceImpl implements PaymentMethodBankService {
     @Override
     public PaymentMethodBankResponse getById(Long id) {
         return mapper.toPaymentMethodBankResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get payment method bank!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
     public PaymentMethodBankResponse create(PaymentMethodBankRequest request) {
-        PaymentMethodBank newPaymentMethodBank = mapper.toPaymentMethodBank(request);
-        newPaymentMethodBank.setPaymentMethod(paymentMethodRepository.
-                findById(request.getPaymentMethodId())
-                            .orElseThrow(() -> new RuntimeException("Can not find payment method")));
-        newPaymentMethodBank.setBank((bankRepository
-                .findById(request.getBankId())
-                            .orElseThrow(() -> new RuntimeException("Can not find payment method"))));
-        return mapper.toPaymentMethodBankResponse(repository.save(newPaymentMethodBank));
+        return mapper.toPaymentMethodBankResponse(repository.save(mapper.toPaymentMethodBank(request)));
     }
 
 }

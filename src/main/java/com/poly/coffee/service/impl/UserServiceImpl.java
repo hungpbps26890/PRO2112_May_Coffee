@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll()
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    @PostAuthorize("returnObject.username == authentication.name")
+    //@PostAuthorize("returnObject.username == authentication.name")
     @Override
     public UserResponse getUserById(Long id) {
         return userMapper.toUserResponse(userRepository.findById(id)
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(user);
     }
 
-    @PreAuthorize("hasAuthority('UPDATE_DATA')")
+    //@PreAuthorize("hasAuthority('UPDATE_DATA')")
     @Override
     public UserResponse updateUser(Long id, UserUpdateRequest request) {
         User user = userRepository.findById(id)

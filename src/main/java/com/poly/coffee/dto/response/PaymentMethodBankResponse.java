@@ -1,6 +1,7 @@
 package com.poly.coffee.dto.response;
 
 import com.poly.coffee.entity.Bank;
+import com.poly.coffee.entity.Order;
 import com.poly.coffee.entity.PaymentMethod;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class PaymentMethodBankResponse {
     String creditCard;
     Float totalPrice;
     LocalDateTime date;
-    PaymentMethod paymentMethodId;
-    Bank bankId;
+    PaymentMethod paymentMethod;
+    Bank bank;
+    List<Order> orders;
 }

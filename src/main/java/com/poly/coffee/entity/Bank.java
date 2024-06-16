@@ -1,5 +1,6 @@
 package com.poly.coffee.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,6 +21,7 @@ public class Bank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(length = 100, nullable = false)
     String name;
     @JsonIgnore
     @OneToMany(mappedBy = "bank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

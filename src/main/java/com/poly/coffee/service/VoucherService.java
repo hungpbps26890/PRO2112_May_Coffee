@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface VoucherService {
       List<VoucherResponse> getAll();
-      VoucherResponse getById(Integer id);
+      VoucherResponse getById(Long id);
       VoucherResponse create(VoucherRequest request);
-      VoucherResponse update(Integer id, VoucherRequest request);
-      void delete(Integer id);
+      VoucherResponse update(Long id, VoucherRequest request);
+      void delete(Long id);
 }

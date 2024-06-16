@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.BankRequest;
 import com.poly.coffee.dto.response.BankResponse;
 import com.poly.coffee.entity.Bank;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.BankMapper;
 import com.poly.coffee.repository.BankRepository;
 import com.poly.coffee.service.BankService;
@@ -34,7 +36,7 @@ public class BankServiceImpl implements BankService {
     @Override
     public BankResponse getById(Integer id) {
         return mapper.toBankResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get bank!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public BankResponse update(Integer id, BankRequest request) {
-        Bank bank = repository.findById(id).orElseThrow(() -> new RuntimeException("Can not update bank!"));
+        Bank bank = repository.findById(id).orElseThrow(() -> new AppException(ErrorCode.INVALID_DATA));
         mapper.updateBank(bank, request);
         return mapper.toBankResponse(repository.save(bank));
     }
@@ -52,6 +54,6 @@ public class BankServiceImpl implements BankService {
     @Override
     public void delete(Integer id) {
         repository.delete(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not delete bank!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 }

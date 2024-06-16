@@ -35,7 +35,6 @@ public class OrderDetailController {
     public ApiResponse<OrderDetailResponse> getById(@PathVariable("id") Long id) {
         return ApiResponse.<OrderDetailResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully")
                 .result(service.getById(id))
                 .build();
     }

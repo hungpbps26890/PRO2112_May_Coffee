@@ -31,7 +31,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<VoucherResponse> getById(@PathVariable("id") Integer id) {
+    public ApiResponse<VoucherResponse> getById(@PathVariable("id") Long id) {
         return ApiResponse.<VoucherResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
                 .result(service.getById(id))
@@ -48,17 +48,17 @@ public class VoucherController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<VoucherResponse> put(@PathVariable("id") Integer id,
+    public ApiResponse<VoucherResponse> put(@PathVariable("id") Long id,
                                         @RequestBody VoucherRequest request) {
         return ApiResponse.<VoucherResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
+                .message("Updated successfully!")
                 .result(service.update(id, request))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<String> delete(@PathVariable("id") Integer id) {
+    public ApiResponse<String> delete(@PathVariable("id") Long id) {
         service.delete(id);
         return ApiResponse.<String>builder()
                 .code(StatusCode.SUCCESS_CODE)

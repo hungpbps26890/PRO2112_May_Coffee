@@ -20,6 +20,7 @@ public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(length = 10, nullable = false)
     String name;
     @JsonIgnore
     @OneToMany(mappedBy = "paymentMethod", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

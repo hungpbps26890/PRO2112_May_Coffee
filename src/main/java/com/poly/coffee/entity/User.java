@@ -1,9 +1,12 @@
 package com.poly.coffee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -30,4 +33,7 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_name")
     )
     private Set<Role> roles;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 }

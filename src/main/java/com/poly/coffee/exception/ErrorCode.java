@@ -20,6 +20,9 @@ public enum ErrorCode {
     DRINK_NOT_FOUND(3001, "Drink not found", HttpStatus.NOT_FOUND),
     TOPPING_NOT_FOUND(4001, "Topping not found", HttpStatus.NOT_FOUND),
     SIZE_NOT_FOUND(5001, "Size not found", HttpStatus.NOT_FOUND),
+    NOT_FOUND(6001, "Not found", HttpStatus.NOT_FOUND),
+    NOT_EXISTS(6002, "Not exists", HttpStatus.NOT_FOUND),
+    INVALID_DATA(6003, "Data not valid", HttpStatus.BAD_REQUEST)
     ;
 
     private final int code;

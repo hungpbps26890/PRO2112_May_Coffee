@@ -1,5 +1,6 @@
 package com.poly.coffee.dto.request;
 
+import com.poly.coffee.entity.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +21,11 @@ public class OrderRequest {
     Integer paymentStatus;
     Integer tableNumber;
     Integer deliveryCharge;
-    Long paymentMethodBankId;
-    Integer orderStatusId;
+    Long paymentMethodBId;
+    OrderStatus orderStatus;
+    PaymentMethodBank paymentMethodBank;
+    User user;
+    Long addressId;
+    Long reviewId;
+    List<OrderDetail> orders;
 }

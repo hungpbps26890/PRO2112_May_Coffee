@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.PaymentMethodRequest;
 import com.poly.coffee.dto.response.PaymentMethodResponse;
 import com.poly.coffee.entity.PaymentMethod;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.PaymentMethodMapper;
 import com.poly.coffee.repository.PaymentMethodRepository;
 import com.poly.coffee.service.PaymentMethodService;
@@ -34,7 +36,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethodResponse  getById(Integer id) {
         return mapper.toPaymentMethodResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get payment method!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
@@ -45,7 +47,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     @Override
     public PaymentMethodResponse update(Integer id, PaymentMethodRequest request) {
         PaymentMethod paymentMethod = repository.findById(id)
-                                                .orElseThrow(() -> new RuntimeException("Can not update payment method!"));
+                                                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         mapper.updatePaymentMethod(paymentMethod, request);
         return mapper.toPaymentMethodResponse(repository.save(paymentMethod));
     }

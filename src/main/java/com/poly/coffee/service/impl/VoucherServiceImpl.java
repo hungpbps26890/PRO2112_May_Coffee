@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.VoucherRequest;
 import com.poly.coffee.dto.response.VoucherResponse;
 import com.poly.coffee.entity.Voucher;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.VoucherMapper;
 import com.poly.coffee.repository.VoucherRepository;
 import com.poly.coffee.service.VoucherService;
@@ -32,9 +34,9 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponse getById(Integer id) {
+    public VoucherResponse getById(Long id) {
         return mapper.toVoucherResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get voucher!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
@@ -43,16 +45,16 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponse update(Integer id, VoucherRequest request) {
+    public VoucherResponse update(Long id, VoucherRequest request) {
         Voucher Voucher = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not update voucher!"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         mapper.updateVoucher(Voucher, request);
         return mapper.toVoucherResponse(repository.save(Voucher));
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         repository.delete(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not delete voucher!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 }

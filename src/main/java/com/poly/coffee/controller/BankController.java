@@ -52,7 +52,7 @@ public class BankController {
                                         @RequestBody BankRequest request) {
         return ApiResponse.<BankResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
+                .message("Updated successfully!")
                 .result(service.update(id, request))
                 .build();
     }

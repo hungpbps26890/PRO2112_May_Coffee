@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.OrderStatusRequest;
 import com.poly.coffee.dto.response.OrderStatusResponse;
 import com.poly.coffee.entity.OrderStatus;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.OrderStatusMapper;
 import com.poly.coffee.repository.OrderStatusRepository;
 import com.poly.coffee.service.OrderStatusService;
@@ -35,7 +37,7 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     @Override
     public OrderStatusResponse getById(Integer id) {
         return mapper.toOrderStatusResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get order status!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
@@ -46,7 +48,7 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     @Override
     public OrderStatusResponse update(Integer id, OrderStatusRequest request) {
         OrderStatus orderStatus = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not update order status!"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         mapper.updateOrderStatus(orderStatus, request);
         return mapper.toOrderStatusResponse(repository.save(orderStatus));
     }
@@ -54,6 +56,6 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     @Override
     public void delete(Integer id) {
         repository.delete(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not delete order status!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 }
