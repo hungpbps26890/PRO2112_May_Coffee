@@ -22,6 +22,5 @@ public class UserResponse {
     String phoneNumber;
     LocalDate dob;
     Set<RoleResponse> roles;
-    List<Order> orders;
 }
 

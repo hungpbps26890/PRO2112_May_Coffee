@@ -16,5 +16,4 @@ import java.util.List;
 public class VoucherTypeResponse {
     Integer id;
     String name;
-    List<Voucher> vouchers;
 }
