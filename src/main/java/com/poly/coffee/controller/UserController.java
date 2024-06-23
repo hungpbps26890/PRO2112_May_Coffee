@@ -100,4 +100,6 @@ public class UserController {
                 .message("User was deleted successfully")
                 .build();
     }
+
+
 }

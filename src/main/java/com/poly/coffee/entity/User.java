@@ -20,9 +20,13 @@ public class User {
     private String username;
     private String email;
     private String password;
+    @Column(columnDefinition = "nvarchar(15)")
     private String firstName;
+    @Column(columnDefinition = "nvarchar(50)")
     private String lastName;
+    private String phoneNumber;
     private LocalDate dob;
+    private Boolean isActive;
 
     @ManyToMany
     @JoinTable(name = "user_roles",

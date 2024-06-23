@@ -19,10 +19,16 @@ public class UserCreationRequest {
     String email;
 
     @Size(min = 8, message = "INVALID_PASSWORD")
+
     String password;
 
     String firstName;
+
     String lastName;
+
+    String phoneNumber;
+
+    Boolean isActive = true;
 
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;
