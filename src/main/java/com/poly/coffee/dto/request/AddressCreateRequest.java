@@ -1,20 +1,18 @@
-package com.poly.coffee.dto.response;
+package com.poly.coffee.dto.request;
 
 import com.poly.coffee.entity.Order;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OrderStatusResponse {
-    Integer id;
-    String name;
+public class AddressCreateRequest {
+    String streetnumber;
+    String ward;
+    String district;
+    String province;
     List<Order> orders;
 }

@@ -7,12 +7,16 @@ import com.poly.coffee.dto.response.OrderDetailResponse;
 import com.poly.coffee.dto.response.OrderResponse;
 import com.poly.coffee.entity.Order;
 import com.poly.coffee.entity.OrderDetail;
+import com.poly.coffee.entity.Voucher;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.OrderDetailMapper;
 import com.poly.coffee.mapper.OrderMapper;
 import com.poly.coffee.repository.OrderDetailRepository;
 import com.poly.coffee.repository.OrderRepository;
 import com.poly.coffee.service.OrderDetailService;
 import com.poly.coffee.service.OrderService;
+import com.poly.coffee.service.VoucherService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -39,10 +43,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public OrderDetailResponse getById(Long id) {
-        return mapper.toOrderDetailResponse(
-                repository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Can not found Order"))
-        );
+        return mapper.toOrderDetailResponse(repository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTS)));
     }
 
     @Override
@@ -52,9 +54,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public OrderDetailResponse update(Long id, OrderDetailRequest request) {
-        OrderDetail orderDetail = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not find OrderDetail"));
-        mapper.updateOrderDetail(orderDetail, request);
-        return mapper.toOrderDetailResponse(repository.save(orderDetail));
+        return mapper.toOrderDetailResponse(repository.save(mapper.toOrderDetail(request)));
     }
 }

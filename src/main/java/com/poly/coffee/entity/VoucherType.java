@@ -20,6 +20,7 @@ public class VoucherType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @Column(length = 10, nullable = false)
     String name;
     @JsonIgnore
     @OneToMany(mappedBy = "voucherType", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

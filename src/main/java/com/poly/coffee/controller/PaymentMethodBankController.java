@@ -34,7 +34,6 @@ public class PaymentMethodBankController {
     public ApiResponse<PaymentMethodBankResponse> getById(@PathVariable("id") Long id) {
         return ApiResponse.<PaymentMethodBankResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
                 .result(service.getById(id))
                 .build();
     }
@@ -43,7 +42,7 @@ public class PaymentMethodBankController {
     public ApiResponse<PaymentMethodBankResponse> post(@RequestBody PaymentMethodBankRequest request) {
         return ApiResponse.<PaymentMethodBankResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
+                .message("Deleted successfully!")
                 .result(service.create(request))
                 .build();
     }

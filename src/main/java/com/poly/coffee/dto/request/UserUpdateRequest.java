@@ -16,8 +16,13 @@ public class UserUpdateRequest {
     String firstName;
     String lastName;
     String phoneNumber;
+<<<<<<< HEAD
 //    String password;
 //    LocalDate dob;
 //    List<String> roles;
     Boolean isActive;
+=======
+    LocalDate dob;
+    List<String> roles;
+>>>>>>> 577b8e41541ed6c40646d2197ec3745d9aa624f1
 }

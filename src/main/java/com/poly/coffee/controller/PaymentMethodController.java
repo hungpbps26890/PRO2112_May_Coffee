@@ -43,7 +43,7 @@ public class PaymentMethodController {
     public ApiResponse<PaymentMethodResponse> post(@RequestBody PaymentMethodRequest request) {
         return ApiResponse.<PaymentMethodResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
+                .message("Updated successfully!")
                 .result(service.create(request))
                 .build();
     }

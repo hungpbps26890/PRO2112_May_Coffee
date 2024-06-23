@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.OrderRequest;
 import com.poly.coffee.dto.response.OrderResponse;
 import com.poly.coffee.entity.Order;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.OrderMapper;
 import com.poly.coffee.repository.OrderRepository;
 import com.poly.coffee.service.OrderService;
@@ -34,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getById(Long id) {
         return mapper.toOrderResponse(
                 repository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Can not found Order"))
+                        .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND))
         );
     }
 
@@ -46,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse update(Long id, OrderRequest request) {
         Order order = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not find Order"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         mapper.updateOrder(order, request);
         return mapper.toOrderResponse(repository.save(order));
     }

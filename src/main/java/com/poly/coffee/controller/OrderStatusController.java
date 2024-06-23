@@ -43,7 +43,7 @@ public class OrderStatusController {
     public ApiResponse<OrderStatusResponse> post(@RequestBody OrderStatusRequest request) {
         return ApiResponse.<OrderStatusResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
+                .message("Updated successfully!")
                 .result(service.create(request))
                 .build();
     }

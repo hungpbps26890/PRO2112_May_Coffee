@@ -1,5 +1,7 @@
 package com.poly.coffee.dto.request;
 
+import com.poly.coffee.entity.Order;
+import com.poly.coffee.entity.Voucher;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +13,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDetailRequest {
-    Integer drinkQuantity;
-    Float drinkUnitPrice;
-    Integer toppingQuantity;
-    Float toppingUnitPrice;
     String note;
-    Integer toppingId;
-    Integer voucherId;
+    Long drinkToppingId;
+    Voucher voucher;
     Integer drinkSizeId;
-    Integer orderId;
+    Order order;
 }

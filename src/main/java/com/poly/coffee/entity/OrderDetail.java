@@ -1,11 +1,14 @@
 package com.poly.coffee.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Nationalized;
 
 @Data
 @AllArgsConstructor
@@ -17,13 +20,14 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    Integer drinkQuantity;
-    Float drinkUnitPrice;
-    Integer toppingQuantity;
-    Float toppingUnitPrice;
+    @Nationalized
     String note;
-    Integer toppingId;
-    Integer voucherId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "voucher_id", referencedColumnName = "id")
+    Voucher voucher;
+    @NotNull
     Integer drinkSizeId;
-    Integer orderId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    Order order;
 }

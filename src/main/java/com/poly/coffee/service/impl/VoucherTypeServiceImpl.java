@@ -3,6 +3,8 @@ package com.poly.coffee.service.impl;
 import com.poly.coffee.dto.request.VoucherTypeRequest;
 import com.poly.coffee.dto.response.VoucherTypeResponse;
 import com.poly.coffee.entity.VoucherType;
+import com.poly.coffee.exception.AppException;
+import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.VoucherTypeMapper;
 import com.poly.coffee.repository.VoucherTypeRepository;
 import com.poly.coffee.service.VoucherTypeService;
@@ -34,7 +36,7 @@ public class VoucherTypeServiceImpl implements VoucherTypeService {
     @Override
     public VoucherTypeResponse getById(Integer id) {
         return mapper.toVoucherTypeResponse(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not get voucher type!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 
     @Override
@@ -45,7 +47,7 @@ public class VoucherTypeServiceImpl implements VoucherTypeService {
     @Override
     public VoucherTypeResponse update(Integer id, VoucherTypeRequest request) {
         VoucherType VoucherType = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not update voucher type!"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         mapper.updateVoucherType(VoucherType, request);
         return mapper.toVoucherTypeResponse(repository.save(VoucherType));
     }
@@ -53,6 +55,6 @@ public class VoucherTypeServiceImpl implements VoucherTypeService {
     @Override
     public void delete(Integer id) {
         repository.delete(repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Can not delete voucher type!")));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
     }
 }
