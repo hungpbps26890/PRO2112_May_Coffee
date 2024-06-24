@@ -1,70 +1,34 @@
 package com.poly.coffee.controller;
 
 import com.poly.coffee.constant.StatusCode;
-import com.poly.coffee.dto.request.OrderStatusRequest;
 import com.poly.coffee.dto.response.ApiResponse;
-import com.poly.coffee.dto.response.OrderStatusResponse;
 import com.poly.coffee.entity.OrderStatus;
 import com.poly.coffee.service.OrderStatusService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @CrossOrigin("*")
-@RestController
-@RequestMapping("/api/order-statuses")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RestController
+@RequestMapping("/api/order-statuses")
 public class OrderStatusController {
 
-    OrderStatusService service;
+    OrderStatusService orderStatusService;
 
     @GetMapping
-    public ApiResponse<List<OrderStatusResponse>> getAll() {
-        return ApiResponse.<List<OrderStatusResponse>>builder()
+    public ApiResponse<List<OrderStatus>> getAllOrderStatus() {
+        return ApiResponse.<List<OrderStatus>>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .result(service.getAll())
+                .message("Get all order status successfully")
+                .result(orderStatusService.getAllOrderStatus())
                 .build();
     }
-
-    @GetMapping("/{id}")
-    public ApiResponse<OrderStatusResponse> getById(@PathVariable("id") Integer id) {
-        return ApiResponse.<OrderStatusResponse>builder()
-                .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
-                .result(service.getById(id))
-                .build();
-    }
-
-    @PostMapping
-    public ApiResponse<OrderStatusResponse> post(@RequestBody OrderStatusRequest request) {
-        return ApiResponse.<OrderStatusResponse>builder()
-                .code(StatusCode.SUCCESS_CODE)
-                .message("Updated successfully!")
-                .result(service.create(request))
-                .build();
-    }
-
-    @PutMapping("/{id}")
-    public ApiResponse<OrderStatusResponse> put(@PathVariable("id") Integer id,
-                                        @RequestBody OrderStatusRequest request) {
-        return ApiResponse.<OrderStatusResponse>builder()
-                .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully!")
-                .result(service.update(id, request))
-                .build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResponse<String> delete(@PathVariable("id") Integer id) {
-        service.delete(id);
-        return ApiResponse.<String>builder()
-                .code(StatusCode.SUCCESS_CODE)
-                .message("Deleted successfully")
-                .build();
-    }
-
 }

@@ -40,7 +40,7 @@ public class PaymentMethodBankServiceImpl implements PaymentMethodBankService {
     @Override
     public PaymentMethodBankResponse getById(Long id) {
         return mapper.toPaymentMethodBankResponse(repository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
+                .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND)));
     }
 
     @Override

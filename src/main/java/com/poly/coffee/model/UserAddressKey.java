@@ -19,5 +19,5 @@ public class UserAddressKey implements Serializable {
 private Long userId;
 
     @Column(name = "address_id")
-    private Integer addressId;
+    private Long addressId;
 }

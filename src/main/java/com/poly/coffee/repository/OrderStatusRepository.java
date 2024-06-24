@@ -2,6 +2,8 @@ package com.poly.coffee.repository;
 
 import com.poly.coffee.entity.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OrderStatusRepository extends JpaRepository<OrderStatus, Integer> {
+@Repository
+public interface OrderStatusRepository extends JpaRepository<OrderStatus, Long> {
 }

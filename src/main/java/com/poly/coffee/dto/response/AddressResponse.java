@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddressResponse {
-     String streetnumber;
+     String streetNumber;
      String ward;
      String district;
      String province;

@@ -2,41 +2,37 @@ package com.poly.coffee.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
+@Entity
 @Getter
 @Setter
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "addresses")
-public class Address implements Serializable {
+public class Address {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String streetnumber;
+    @Column(columnDefinition = "nvarchar(255)")
+    private String streetNumber;
 
-	private String ward;
+    @Column(columnDefinition = "nvarchar(255)")
+    private String ward;
 
-	private String district;
+    @Column(columnDefinition = "nvarchar(255)")
+    private String district;
 
-	private String province;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<UserAddress> userAddresses = new ArrayList<>();
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Order> orders = new ArrayList<>();
+    @Column(columnDefinition = "nvarchar(255)")
+    private String province;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<UserAddress> userAddresses = new ArrayList<>();
 }

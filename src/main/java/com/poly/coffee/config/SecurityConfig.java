@@ -1,5 +1,9 @@
 package com.poly.coffee.config;
 
+import com.poly.coffee.auth.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.poly.coffee.auth.UserRootService;
+import com.poly.coffee.auth.oauthhandler.OAuth2AuthenticationSuccessHandler;
+import com.poly.coffee.auth.oauthuser.OAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +31,18 @@ public class SecurityConfig {
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
+    @Autowired
+    UserRootService userRootService;
+
+    @Autowired
+    OAuth2UserService oAuth2UserService;
+
+    @Autowired
+    OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+
+    @Autowired
+    HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/users",
             "/api/auth/login",
@@ -34,6 +50,12 @@ public class SecurityConfig {
             "/api/auth/logout",
             "/api/auth/refresh"
     };
+
+    @Bean
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -51,6 +73,14 @@ public class SecurityConfig {
                                 .decoder(customJwtDecoder)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                )
+                .oauth2Login(ou -> ou
+                        .authorizationEndpoint(e -> e
+                                .baseUri("/oauth2/authorize")
+                                .authorizationRequestRepository(cookieAuthorizationRequestRepository()))
+                        .redirectionEndpoint(e -> e.baseUri("/login/oauth2/code/*"))
+                        .userInfoEndpoint(e -> e.userService(oAuth2UserService))
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
                 );
 
         return httpSecurity.build();

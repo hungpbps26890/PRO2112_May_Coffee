@@ -76,14 +76,16 @@ public class UserController {
     ) {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(userService.updateUser(id,request));
+        apiResponse.setResult(userService.updateUser(id, request));
+        apiResponse.setMessage("Update user successfully!");
+        apiResponse.setCode(StatusCode.SUCCESS_CODE);
 
         return apiResponse;
     }
 
     @PutMapping("/my-info")
     public ApiResponse<UserResponse> updateMyInfo(
-            @RequestBody UserUpdateMyInfoRequest request
+            @RequestBody @Valid UserUpdateMyInfoRequest request
     ) {
 
         return ApiResponse.<UserResponse>builder()
@@ -102,9 +104,6 @@ public class UserController {
                 .build();
     }
 
-<<<<<<< HEAD
-
-=======
     @PutMapping("/change-password")
     public ApiResponse<Void> changePassword(@RequestBody ChangePasswordRequest request) {
         userService.changePassword(request);
@@ -114,5 +113,4 @@ public class UserController {
                 .message("Password was changed successfully")
                 .build();
     }
->>>>>>> 577b8e41541ed6c40646d2197ec3745d9aa624f1
 }

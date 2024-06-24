@@ -1,11 +1,11 @@
 package com.poly.coffee.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poly.coffee.enums.AuthTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,16 +20,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+
     private String email;
+
     private String password;
-<<<<<<< HEAD
-    @Column(columnDefinition = "nvarchar(15)")
-    private String firstName;
-    @Column(columnDefinition = "nvarchar(50)")
-    private String lastName;
-    private String phoneNumber;
-=======
 
     @Column(columnDefinition = "nvarchar(255)")
     private String firstName;
@@ -39,17 +33,22 @@ public class User {
 
     private String phoneNumber;
 
->>>>>>> 577b8e41541ed6c40646d2197ec3745d9aa624f1
+    @Builder.Default
+    private Boolean isActive = true;
+
+    @Builder.Default
+    private AuthTypeEnum authType = AuthTypeEnum.LOCAL;
+
     private LocalDate dob;
-    private Boolean isActive;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_name")
     )
     private Set<Role> roles;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
 }

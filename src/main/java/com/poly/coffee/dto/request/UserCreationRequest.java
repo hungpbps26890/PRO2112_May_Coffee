@@ -14,22 +14,14 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
 
-    String username;
-
     String email;
 
     @Size(min = 8, message = "INVALID_PASSWORD")
-
     String password;
 
     String firstName;
-
     String lastName;
     String phoneNumber;
-
-    String phoneNumber;
-
-    Boolean isActive = true;
 
     @DobConstraint(min = 18, message = "INVALID_DOB")
     LocalDate dob;

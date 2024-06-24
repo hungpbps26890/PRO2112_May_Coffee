@@ -36,7 +36,7 @@ public class BankServiceImpl implements BankService {
     @Override
     public BankResponse getById(Integer id) {
         return mapper.toBankResponse(repository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
+                .orElseThrow(() -> new AppException(ErrorCode.BANK_NOT_FOUND)));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public BankResponse update(Integer id, BankRequest request) {
-        Bank bank = repository.findById(id).orElseThrow(() -> new AppException(ErrorCode.INVALID_DATA));
+        Bank bank = repository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BANK_NOT_FOUND));
         mapper.updateBank(bank, request);
         return mapper.toBankResponse(repository.save(bank));
     }
@@ -54,6 +54,6 @@ public class BankServiceImpl implements BankService {
     @Override
     public void delete(Integer id) {
         repository.delete(repository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND)));
+                .orElseThrow(() -> new AppException(ErrorCode.BANK_NOT_FOUND)));
     }
 }

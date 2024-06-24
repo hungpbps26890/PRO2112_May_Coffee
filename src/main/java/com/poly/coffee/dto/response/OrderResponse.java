@@ -1,32 +1,29 @@
 package com.poly.coffee.dto.response;
 
-import com.poly.coffee.entity.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.poly.coffee.entity.Address;
+import com.poly.coffee.entity.OrderItem;
+import com.poly.coffee.entity.OrderStatus;
+import com.poly.coffee.entity.PaymentMethod;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderResponse {
     Long id;
-    Float totalPrice;
-    String userName;
+    Integer totalItems;
+    Double totalPrice;
     LocalDateTime createDate;
-    Integer paymentStatus;
-    Integer tableNumber;
-    Integer deliveryCharge;
-    Long paymentMethodBId;
-    OrderStatus orderStatus;
-    PaymentMethodBank paymentMethodBank;
+    Boolean paymentStatus;
+    List<OrderItem> orderItems;
     UserResponse user;
-    Long addressId;
-    Long reviewId;
-    List<OrderDetail> orders;
+    OrderStatus orderStatus;
+    PaymentMethod paymentMethod;
+    Address address;
 }

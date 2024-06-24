@@ -1,7 +1,6 @@
 package com.poly.coffee.service;
 
 
-
 import com.poly.coffee.dto.request.AddressCreateRequest;
 import com.poly.coffee.dto.request.AddressUpdateRequest;
 import com.poly.coffee.dto.response.AddressResponse;
@@ -17,11 +16,9 @@ public interface AddressService {
 
     public List<Address> getAllAddress();
 
-    public AddressResponse getAddress(Integer id);
+    public AddressResponse getAddress(Long id);
 
-    public AddressResponse updateAddress(Integer id, AddressUpdateRequest request);
+    AddressResponse updateAddress(Long id, AddressUpdateRequest request);
 
-    public void deleteAddress(Integer id);
-
-
+    void deleteAddress(Long id);
 }

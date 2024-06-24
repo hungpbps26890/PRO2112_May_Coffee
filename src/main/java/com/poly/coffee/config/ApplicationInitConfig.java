@@ -25,31 +25,18 @@ public class ApplicationInitConfig {
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         return args -> {
-            if (userRepository.findByUsername("admin").isEmpty()) {
-<<<<<<< HEAD
-                //Set<Role> roles = new HashSet<>();
-
-//                Role roleAdmin = roleRepository.findById(RoleEnum.ADMIN.name())
-//                        .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
-
-                //roles.add(roleAdmin);
-=======
+            if (userRepository.findByEmail("admin@gmail.com").isEmpty()) {
 //                Set<Role> roles = new HashSet<>();
 //
 //                Role roleAdmin = roleRepository.findById(RoleEnum.ADMIN.name())
 //                        .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND));
 //
 //                roles.add(roleAdmin);
->>>>>>> 577b8e41541ed6c40646d2197ec3745d9aa624f1
 
                 User user = User.builder()
-                        .username("admin")
+                        .email("admin@gmail.com")
                         .password(passwordEncoder.encode("12345678"))
-<<<<<<< HEAD
-                       // .roles(roles)
-=======
-                        //.roles(roles)
->>>>>>> 577b8e41541ed6c40646d2197ec3745d9aa624f1
+//                        .roles(roles)
                         .build();
 
                 userRepository.save(user);
