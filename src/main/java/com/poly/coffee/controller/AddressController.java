@@ -32,17 +32,17 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    AddressResponse getAddress(@PathVariable Integer id){
+    AddressResponse getAddress(@PathVariable Long id){
             return addressService.getAddress(id);
     }
 
     @PutMapping("/{id}")
-    AddressResponse updateAddress(@PathVariable Integer id, @RequestBody AddressUpdateRequest request){
+    AddressResponse updateAddress(@PathVariable Long id, @RequestBody AddressUpdateRequest request){
         return addressService.updateAddress(id, request);
     }
 
     @DeleteMapping("/{id}")
-    String deleteAddress(@PathVariable Integer id){
+    String deleteAddress(@PathVariable Long id){
         addressService.deleteAddress(id);
         return "Address has been deleted";
     }

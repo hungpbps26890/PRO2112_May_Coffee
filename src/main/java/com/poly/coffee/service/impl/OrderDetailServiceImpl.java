@@ -44,7 +44,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailResponse getById(Long id) {
         return mapper.toOrderDetailResponse(repository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_EXISTS)));
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND)));
     }
 
     @Override

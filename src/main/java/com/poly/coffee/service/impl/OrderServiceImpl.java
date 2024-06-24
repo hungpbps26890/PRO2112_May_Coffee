@@ -1,55 +1,144 @@
 package com.poly.coffee.service.impl;
 
 import com.poly.coffee.dto.request.OrderRequest;
+import com.poly.coffee.dto.request.UpdateOrderStatusRequest;
 import com.poly.coffee.dto.response.OrderResponse;
-import com.poly.coffee.entity.Order;
+import com.poly.coffee.entity.*;
 import com.poly.coffee.exception.AppException;
 import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.OrderMapper;
-import com.poly.coffee.repository.OrderRepository;
+import com.poly.coffee.repository.*;
+import com.poly.coffee.service.CartService;
 import com.poly.coffee.service.OrderService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
-@Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Service
 public class OrderServiceImpl implements OrderService {
 
-    OrderRepository repository;
-    OrderMapper mapper;
+    OrderRepository orderRepository;
+
+    OrderItemRepository orderItemRepository;
+
+    AddressRepository addressRepository;
+
+    PaymentMethodRepository paymentMethodRepository;
+
+    OrderStatusRepository orderStatusRepository;
+
+    UserRepository userRepository;
+
+    CartRepository cartRepository;
+
+    OrderMapper orderMapper;
+
+    CartService cartService;
 
     @Override
-    public List<OrderResponse> getAll() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toOrderResponse)
-                .collect(Collectors.toList());
+    public OrderResponse createOrder(OrderRequest request) {
+        User user = findUser();
+
+        Cart cart = cartRepository.findByUserId(user.getId());
+
+        Address savedAddress = addressRepository.save(request.getAddress());
+
+        PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethod().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
+
+        Order order = new Order();
+
+        order.setUser(user);
+        order.setCreateDate(LocalDateTime.now());
+        order.setOrderStatus(orderStatusRepository.findById(1L).orElse(null));
+        order.setTotalItems(cart.getTotalItems());
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setPaymentMethod(paymentMethod);
+        order.setAddress(savedAddress);
+
+        Order createdOrder = orderRepository.save(order);
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        Set<CartItem> cartItems = cart.getCartItems();
+
+        for (CartItem cartItem : cartItems) {
+            List<Topping> toppings = cartItem.getToppings();
+
+            OrderItem orderItem = OrderItem.builder()
+                    .order(createdOrder)
+                    .drink(cartItem.getDrink())
+                    .price(cartItem.getPrice())
+                    .quantity(cartItem.getQuantity())
+                    .size(cartItem.getSize())
+                    .toppings(new ArrayList<>(toppings))
+                    .build();
+
+            OrderItem savedOrderItem = orderItemRepository.save(orderItem);
+
+            orderItems.add(savedOrderItem);
+        }
+
+        createdOrder.setOrderItems(orderItems);
+
+        Order savedOrder = orderRepository.save(createdOrder);
+
+        user.getOrders().add(savedOrder);
+
+        cartService.clearCart();
+
+        return orderMapper.toOrderResponse(savedOrder);
     }
 
     @Override
-    public OrderResponse getById(Long id) {
-        return mapper.toOrderResponse(
-                repository.findById(id)
-                        .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND))
-        );
+    public List<OrderResponse> getOrdersByUser() {
+        User user = findUser();
+        List<Order> orders = orderRepository.findByUserId(user.getId());
+        return orders.stream().map(orderMapper::toOrderResponse).toList();
     }
 
     @Override
-    public OrderResponse create(OrderRequest request) {
-        return mapper.toOrderResponse(repository.save(mapper.toOrder(request)));
+    public List<OrderResponse> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(orderMapper::toOrderResponse).toList();
     }
 
     @Override
-    public OrderResponse update(Long id, OrderRequest request) {
-        Order order = repository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        mapper.updateOrder(order, request);
-        return mapper.toOrderResponse(repository.save(order));
+    public OrderResponse getOrderById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
+        return orderMapper.toOrderResponse(order);
+    }
+
+    @Override
+    public OrderResponse updateOrderStatus(UpdateOrderStatusRequest request) {
+        Order order = orderRepository.findById(request.getId())
+                .orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
+
+        OrderStatus orderStatus = orderStatusRepository.findById(request.getOrderStatus().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
+
+        order.setPaymentStatus(request.getPaymentStatus());
+
+        order.setOrderStatus(orderStatus);
+
+        return orderMapper.toOrderResponse(orderRepository.save(order));
+    }
+
+    private User findUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
     }
 }

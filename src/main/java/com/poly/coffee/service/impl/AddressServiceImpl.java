@@ -40,13 +40,13 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressResponse getAddress(Integer id) {
+    public AddressResponse getAddress(Long id) {
         return addressMapper.toAddressResponse(addressRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Can not found Address")));
     }
 
     @Override
-    public AddressResponse updateAddress(Integer id, AddressUpdateRequest request) {
+    public AddressResponse updateAddress(Long id, AddressUpdateRequest request) {
         Address address = addressRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Can not found Address"));
         addressMapper.updateAddress(address, request);
@@ -54,7 +54,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void deleteAddress(Integer id) {
+    public void deleteAddress(Long id) {
         addressRepository.deleteById(id);
     }
 }

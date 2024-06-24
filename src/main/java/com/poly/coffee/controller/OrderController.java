@@ -2,9 +2,9 @@ package com.poly.coffee.controller;
 
 import com.poly.coffee.constant.StatusCode;
 import com.poly.coffee.dto.request.OrderRequest;
+import com.poly.coffee.dto.request.UpdateOrderStatusRequest;
 import com.poly.coffee.dto.response.ApiResponse;
 import com.poly.coffee.dto.response.OrderResponse;
-import com.poly.coffee.entity.Order;
 import com.poly.coffee.service.OrderService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -14,51 +14,57 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin("*")
-@RestController
-@RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RestController
+@RequestMapping("/api/orders")
 public class OrderController {
 
-    OrderService service;
+    OrderService orderService;
 
-    @GetMapping
-    public ApiResponse<List<OrderResponse>> getAll() {
+    @PostMapping
+    public ApiResponse<OrderResponse> createOrder(@RequestBody OrderRequest request) {
+
+        return ApiResponse.<OrderResponse>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .message("Create new order successfully")
+                .result(orderService.createOrder(request))
+                .build();
+    }
+
+    @GetMapping("/user")
+    public ApiResponse<List<OrderResponse>> getOrdersByUser() {
         return ApiResponse.<List<OrderResponse>>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .result(service.getAll())
+                .message("Get orders by user successfully")
+                .result(orderService.getOrdersByUser())
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<List<OrderResponse>> getAllOrders() {
+        return ApiResponse.<List<OrderResponse>>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .message("Get all orders successfully")
+                .result(orderService.getAllOrders())
                 .build();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<OrderResponse> getById(@PathVariable("id") Long id) {
-        return ApiResponse.<OrderResponse>builder()
+    public ApiResponse<OrderResponse> getOrderById(@PathVariable Long id) {
+        return  ApiResponse.<OrderResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .result(service.getById(id))
+                .message("Get order by id successfully")
+                .result(orderService.getOrderById(id))
                 .build();
     }
 
-    @PostMapping
-    public ApiResponse<OrderResponse> create(@RequestBody OrderRequest request) {
+    @PutMapping("/order/update-status")
+    public ApiResponse<OrderResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest request) {
         return ApiResponse.<OrderResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Created successfully")
-                .result(service.create(request))
-                .build();
-    }
-
-    @PutMapping("/{id}")
-    public ApiResponse<OrderResponse> update(@PathVariable("id") Long id,
-                                @RequestBody OrderRequest request) {
-        if (service.getById(id) != null) {
-            service.update(id, request);
-            return ApiResponse.<OrderResponse>builder()
-                    .code(StatusCode.SUCCESS_CODE)
-                    .message("Updated successfully!")
-                    .build();
-        }
-        return ApiResponse.<OrderResponse>builder()
-                .message("Updated failed!")
+                .message("Update order status by id successfully")
+                .result(orderService.updateOrderStatus(request))
                 .build();
     }
 }
