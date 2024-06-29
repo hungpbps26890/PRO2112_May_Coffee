@@ -8,6 +8,8 @@ import com.poly.coffee.dto.request.UserUpdateRequest;
 import com.poly.coffee.dto.response.ApiResponse;
 import com.poly.coffee.dto.response.UserResponse;
 import com.poly.coffee.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +26,12 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Controller")
 public class UserController {
 
     UserService userService;
 
+    @Operation(summary = "Create a new user")
     @PostMapping
     public ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
@@ -39,7 +43,7 @@ public class UserController {
         return apiResponse;
     }
 
-
+    @Operation(summary = "Get All Users")
     @GetMapping
     public ApiResponse<List<UserResponse>> getAllUsers() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +57,7 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Get user by id")
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> getUserById(@PathVariable Long id) {
         return ApiResponse.<UserResponse>builder()
@@ -61,6 +66,7 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Get user info")
     @GetMapping("/my-info")
     public ApiResponse<UserResponse> getMyInfo() {
         return ApiResponse.<UserResponse>builder()
@@ -69,6 +75,7 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Update user")
     @PutMapping("/{id}")
     public ApiResponse<UserResponse> updateUser(
             @PathVariable Long id,
@@ -83,6 +90,7 @@ public class UserController {
         return apiResponse;
     }
 
+    @Operation(summary = "Update user info")
     @PutMapping("/my-info")
     public ApiResponse<UserResponse> updateMyInfo(
             @RequestBody @Valid UserUpdateMyInfoRequest request
@@ -95,6 +103,7 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Delete user")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
@@ -104,6 +113,7 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Change password")
     @PutMapping("/change-password")
     public ApiResponse<Void> changePassword(@RequestBody ChangePasswordRequest request) {
         userService.changePassword(request);
