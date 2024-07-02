@@ -21,6 +21,6 @@ public class VoucherRequest {
     LocalDateTime beginDate;
     LocalDateTime endDate;
     String image;
-    VoucherType voucherType;
+    Integer voucherTypeId;
     List<OrderDetail> orderDetails;
 }
