@@ -3,7 +3,6 @@ package com.poly.coffee.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +33,7 @@ public class Voucher {
     @Column(nullable = false)
     LocalDateTime endDate;
     String image;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "voucher_type_id", referencedColumnName = "id")
     VoucherType voucherType;
     @JsonIgnore

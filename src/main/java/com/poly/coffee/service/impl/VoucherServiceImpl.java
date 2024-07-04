@@ -44,7 +44,8 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponse create(VoucherRequest request) {
-        VoucherType voucherType = voucherTypeRepository.findById(request.getVoucherTypeId()).orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        VoucherType voucherType = voucherTypeRepository.findById(request.getVoucherTypeId())
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
         Voucher voucher = mapper.toVoucher((request));
         voucher.setVoucherType(voucherType);
         return mapper.toVoucherResponse(repository.save(voucher));
@@ -52,10 +53,13 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponse update(Long id, VoucherRequest request) {
-        Voucher Voucher = repository.findById(id)
+        VoucherType voucherType = voucherTypeRepository.findById(request.getVoucherTypeId())
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
-        mapper.updateVoucher(Voucher, request);
-        return mapper.toVoucherResponse(repository.save(Voucher));
+        Voucher voucher = repository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND));
+        mapper.updateVoucher(voucher, request);
+        voucher.setVoucherType(voucherType);
+        return mapper.toVoucherResponse(repository.save(voucher));
     }
 
     @Override
