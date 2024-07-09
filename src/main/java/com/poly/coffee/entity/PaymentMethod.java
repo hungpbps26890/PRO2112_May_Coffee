@@ -1,7 +1,10 @@
 package com.poly.coffee.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Builder
 @Entity
@@ -14,8 +17,9 @@ public class PaymentMethod {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(columnDefinition = "nvarchar(255)")
-    private String name;
+    Integer id;
+    String name;
+    @JsonIgnore
+    @OneToMany(mappedBy = "paymentMethod", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<PaymentMethodBank> paymentMethodBanks;
 }
