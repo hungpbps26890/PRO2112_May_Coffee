@@ -29,6 +29,10 @@ public class Order {
 
     private Boolean paymentStatus = false;
 
+    @ManyToOne
+    @JoinColumn(name = "payment_method_id")
+    private  PaymentMethod paymentMethod;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
 
@@ -41,9 +45,8 @@ public class Order {
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_method_id")
-    private  PaymentMethod paymentMethod;
+    @OneToOne(mappedBy = "order")
+    private  PaymentMethodBank paymentMethodBank;
 
     @ManyToOne
     @JoinColumn(name = "address_id")

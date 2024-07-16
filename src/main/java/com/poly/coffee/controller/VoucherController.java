@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -37,6 +38,15 @@ public class VoucherController {
                 .result(service.getById(id))
                 .build();
     }
+
+    @GetMapping("/valid")
+    public ApiResponse<List<VoucherResponse>> getValidByCurrentDate() {
+        return ApiResponse.<List<VoucherResponse>>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .result(service.getValidByCurrentDate())
+                .build();
+    }
+
 
     @PostMapping
     public ApiResponse<VoucherResponse> post(@RequestBody VoucherRequest request) {

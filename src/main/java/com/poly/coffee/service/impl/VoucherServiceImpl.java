@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,14 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<VoucherResponse> getAll() {
         return repository.findAll()
+                .stream()
+                .map(mapper::toVoucherResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VoucherResponse> getValidByCurrentDate() {
+        return repository.findByBeginDateLessThanEqualAndEndDateGreaterThanEqual(LocalDateTime.now(), LocalDateTime.now())
                 .stream()
                 .map(mapper::toVoucherResponse)
                 .collect(Collectors.toList());

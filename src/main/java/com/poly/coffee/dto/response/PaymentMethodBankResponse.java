@@ -24,5 +24,5 @@ public class PaymentMethodBankResponse {
     LocalDateTime date;
     PaymentMethod paymentMethod;
     Bank bank;
-    List<Order> orders;
+    Order order;
 }
