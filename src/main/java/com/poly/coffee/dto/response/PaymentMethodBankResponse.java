@@ -18,10 +18,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentMethodBankResponse {
     Long id;
-    String owner;
-    String creditCard;
-    Float totalPrice;
-    LocalDateTime date;
+    Long transactionNo;
+    Double amount;
+    LocalDateTime payDate;
+    String cardType;
+    String bankTranNo;
     PaymentMethod paymentMethod;
     Bank bank;
     Order order;

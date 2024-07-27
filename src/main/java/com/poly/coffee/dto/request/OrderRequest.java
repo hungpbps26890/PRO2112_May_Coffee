@@ -15,4 +15,5 @@ public class OrderRequest {
     Address address;
     PaymentMethod paymentMethod;
     Voucher voucher;
+    Float feeShip;
 }

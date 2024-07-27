@@ -61,12 +61,13 @@ public class OrderServiceImpl implements OrderService {
 
         Double totalPrice = cart.getTotalPrice();
         Voucher voucher = request.getVoucher();
+        Float feeShip = request.getFeeShip();
         Float amount = voucher.getAmount();
         Double discountTotalPrice;
         if (amount < 1)
-            discountTotalPrice = totalPrice * (1 - amount);
+            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
         else
-            discountTotalPrice = totalPrice - amount;
+            discountTotalPrice = totalPrice + feeShip - amount;
 
 
         Order order = new Order();

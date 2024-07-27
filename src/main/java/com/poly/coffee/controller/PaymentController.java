@@ -1,23 +1,33 @@
 package com.poly.coffee.controller;
 
 import com.poly.coffee.constant.StatusCode;
+import com.poly.coffee.dto.request.PaymentMethodBankRequest;
 import com.poly.coffee.dto.request.UpdateOrderStatusRequest;
 import com.poly.coffee.dto.response.ApiResponse;
+import com.poly.coffee.dto.response.BankResponse;
+import com.poly.coffee.dto.response.PaymentMethodResponse;
 import com.poly.coffee.dto.response.VNPayResponse;
-import com.poly.coffee.entity.OrderStatus;
+import com.poly.coffee.entity.*;
+import com.poly.coffee.repository.BankRepository;
+import com.poly.coffee.repository.OrderRepository;
+import com.poly.coffee.repository.PaymentMethodRepository;
 import com.poly.coffee.service.OrderService;
+import com.poly.coffee.service.PaymentMethodBankService;
 import com.poly.coffee.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @CrossOrigin("*")
 @RequiredArgsConstructor
@@ -27,8 +37,12 @@ import java.io.IOException;
 public class PaymentController {
 
     PaymentService paymentService;
-
     OrderService orderService;
+    PaymentMethodBankService paymentMethodBankService;
+    PaymentMethodRepository paymentMethodRepository;
+    BankRepository bankRepository;
+    OrderRepository orderRepository;
+
 
     @GetMapping("/vn-pay")
     public ApiResponse<VNPayResponse> pay(HttpServletRequest request) {
@@ -43,7 +57,6 @@ public class PaymentController {
     public void payCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String status = request.getParameter("vnp_ResponseCode");
         long orderId = Integer.parseInt(request.getParameter("orderId"));
-
         if (status.equals("00")) {
             UpdateOrderStatusRequest updateOrderStatusRequest = UpdateOrderStatusRequest.builder()
                     .id(orderId)
@@ -51,9 +64,37 @@ public class PaymentController {
                     .paymentStatus(true).build();
             orderService.updateOrderStatus(updateOrderStatusRequest);
 
+            //Handle PaymentMethodBank
+            Long transactionNo = Long.parseLong(request.getParameter("vnp_TransactionNo"));
+            Double amount = Double.parseDouble(request.getParameter("vnp_Amount")) / 100;
+            String cardType = request.getParameter("vnp_CardType");
+            String bankTranNo = request.getParameter("vnp_BankTranNo");
+            String bankCode = request.getParameter("vnp_BankCode");
+            LocalDateTime payDate = handleVnpPayDate(request.getParameter("vnp_PayDate"));
+
+            PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
+            paymentMethodBank.setTransactionNo(transactionNo);
+            paymentMethodBank.setAmount(amount);
+            paymentMethodBank.setPayDate(payDate);
+            paymentMethodBank.setCardType(cardType);
+            paymentMethodBank.setBankTranNo(bankTranNo);
+            if (bankCode.equals("NCB"))
+                paymentMethodBank.setPaymentMethodId(13);
+            paymentMethodBank.setBankId(12);
+            paymentMethodBank.setOrderId(orderId);
+
+            paymentMethodBankService.create(paymentMethodBank);
+            //End region
+
             response.sendRedirect("http://localhost:3000/order");
         } else {
             response.sendRedirect("http://localhost:3000/order");
         }
+    }
+
+    private LocalDateTime handleVnpPayDate(String vnpPayDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime localDateTime = LocalDateTime.parse(vnpPayDate, formatter);
+        return localDateTime;
     }
 }
