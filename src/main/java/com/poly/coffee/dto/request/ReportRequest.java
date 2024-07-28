@@ -1,7 +1,6 @@
 package com.poly.coffee.dto.request;
 
-import com.poly.coffee.entity.OrderDetail;
-import com.poly.coffee.entity.VoucherType;
+import com.poly.coffee.entity.Voucher;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class VoucherRequest {
-    String discountCode;
-    Float amount;
-    LocalDateTime beginDate;
-    LocalDateTime endDate;
-    String image;
-    Integer voucherTypeId;
-    List<OrderDetail> orderDetails;
+public class ReportRequest {
+    LocalDateTime fromDate;
+    LocalDateTime toDate;
 }

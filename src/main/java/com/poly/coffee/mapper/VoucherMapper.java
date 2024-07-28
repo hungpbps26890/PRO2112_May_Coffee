@@ -4,6 +4,7 @@ import com.poly.coffee.dto.request.VoucherRequest;
 import com.poly.coffee.dto.response.VoucherResponse;
 import com.poly.coffee.entity.Voucher;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")

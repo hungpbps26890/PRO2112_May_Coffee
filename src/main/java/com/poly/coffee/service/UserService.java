@@ -1,9 +1,6 @@
 package com.poly.coffee.service;
 
-import com.poly.coffee.dto.request.ChangePasswordRequest;
-import com.poly.coffee.dto.request.UserCreationRequest;
-import com.poly.coffee.dto.request.UserUpdateMyInfoRequest;
-import com.poly.coffee.dto.request.UserUpdateRequest;
+import com.poly.coffee.dto.request.*;
 import com.poly.coffee.dto.response.UserResponse;
 
 import java.util.List;
@@ -21,6 +18,8 @@ public interface UserService {
     UserResponse updateUser(Long id, UserUpdateRequest request);
 
     UserResponse updateMyInfo(UserUpdateMyInfoRequest request);
+
+    UserResponse lockUser(Long id);
 
     void deleteUser(Long id);
 

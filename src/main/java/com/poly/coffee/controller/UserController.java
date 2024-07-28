@@ -1,10 +1,7 @@
 package com.poly.coffee.controller;
 
 import com.poly.coffee.constant.StatusCode;
-import com.poly.coffee.dto.request.ChangePasswordRequest;
-import com.poly.coffee.dto.request.UserCreationRequest;
-import com.poly.coffee.dto.request.UserUpdateMyInfoRequest;
-import com.poly.coffee.dto.request.UserUpdateRequest;
+import com.poly.coffee.dto.request.*;
 import com.poly.coffee.dto.response.ApiResponse;
 import com.poly.coffee.dto.response.UserResponse;
 import com.poly.coffee.service.UserService;
@@ -19,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Clock;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -75,9 +73,23 @@ public class UserController {
                 .build();
     }
 
+    @Operation(summary = "Lock user")
+    @PutMapping("/lock/{id}")
+    public ApiResponse<UserResponse> lockUser(
+            @PathVariable Long id
+    ) {
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(userService.lockUser(id));
+        apiResponse.setMessage("Clock user successfully!");
+        apiResponse.setCode(StatusCode.SUCCESS_CODE);
+
+        return apiResponse;
+    }
+
     @Operation(summary = "Update user")
     @PutMapping("/{id}")
-    public ApiResponse<UserResponse> updateUser(
+    public ApiResponse<UserResponse> UpdateUser(
             @PathVariable Long id,
             @RequestBody UserUpdateRequest request
     ) {
