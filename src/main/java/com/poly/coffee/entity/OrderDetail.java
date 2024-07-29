@@ -22,9 +22,6 @@ public class OrderDetail {
     Long id;
     @Nationalized
     String note;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "voucher_id", referencedColumnName = "id")
-    Voucher voucher;
     @NotNull
     Integer drinkSizeId;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

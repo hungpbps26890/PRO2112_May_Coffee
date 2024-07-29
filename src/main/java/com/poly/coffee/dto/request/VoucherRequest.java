@@ -1,7 +1,6 @@
 package com.poly.coffee.dto.request;
 
-import com.poly.coffee.entity.OrderDetail;
-import com.poly.coffee.entity.VoucherType;
+import com.poly.coffee.entity.Order;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,5 +21,5 @@ public class VoucherRequest {
     LocalDateTime endDate;
     String image;
     Integer voucherTypeId;
-    List<OrderDetail> orderDetails;
+    List<Order> orders;
 }

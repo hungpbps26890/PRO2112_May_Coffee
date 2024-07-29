@@ -31,7 +31,8 @@ public enum ErrorCode {
     PAYMENT_METHOD_NOT_FOUND(7001, "Payment method not found", HttpStatus.NOT_FOUND),
     ORDER_NOT_NOT_FOUND(7002, "Order not found", HttpStatus.NOT_FOUND),
     ORDER_STATUS_NOT_NOT_FOUND(7003, "Order status not found", HttpStatus.NOT_FOUND),
-    BANK_NOT_FOUND(7004, "Bank not found", HttpStatus.NOT_FOUND)
+    BANK_NOT_FOUND(7004, "Bank not found", HttpStatus.NOT_FOUND),
+    VOUCHER_NOT_FOUND(7005, "Voucher method not found", HttpStatus.NOT_FOUND),
     ;
 
     private final int code;

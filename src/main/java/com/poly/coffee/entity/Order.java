@@ -22,6 +22,10 @@ public class Order {
 
     private Integer totalItems = 0;
 
+    @ManyToOne
+    @JoinColumn(name = "voucher_id")
+    private Voucher voucher;
+
     private Double totalPrice = 0.0;
 
     @Column(name = "create_date")

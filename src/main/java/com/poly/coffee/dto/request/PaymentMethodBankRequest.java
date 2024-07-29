@@ -15,6 +15,10 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaymentMethodBankRequest {
+    String owner;
+    String creditCard;
+    Float totalPrice;
+    LocalDateTime date;
     Long transactionNo;
     Double amount;
     LocalDateTime payDate;

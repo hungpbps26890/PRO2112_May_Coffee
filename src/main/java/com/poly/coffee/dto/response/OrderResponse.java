@@ -24,4 +24,5 @@ public class OrderResponse {
     OrderStatus orderStatus;
     Address address;
     PaymentMethodBank paymentMethodBank;
+    Voucher voucher;
 }

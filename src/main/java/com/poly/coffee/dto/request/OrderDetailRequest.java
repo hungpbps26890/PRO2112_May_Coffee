@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 public class OrderDetailRequest {
     String note;
     Long drinkToppingId;
-    Voucher voucher;
     Integer drinkSizeId;
     Order order;
 }
