@@ -25,4 +25,5 @@ public class OrderResponse {
     Address address;
     PaymentMethodBank paymentMethodBank;
     Voucher voucher;
+    Review review;
 }

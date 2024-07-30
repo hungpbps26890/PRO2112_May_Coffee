@@ -55,4 +55,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    Review review;
 }
