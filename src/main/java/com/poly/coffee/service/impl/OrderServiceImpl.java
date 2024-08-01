@@ -48,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
 
     SearchRepository searchRepository;
 
+    VoucherRepository voucherRepository;
+
     @Override
     public OrderResponse createOrder(OrderRequest request) {
         User user = findUser();
@@ -58,6 +60,18 @@ public class OrderServiceImpl implements OrderService {
 
         PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethod().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
+        Voucher voucher = voucherRepository.findById(request.getVoucher().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.VOUCHER_NOT_FOUND));
+
+        Double totalPrice = cart.getTotalPrice();
+        Float feeShip = request.getFeeShip();
+        Float amount = voucher.getAmount();
+        Double discountTotalPrice;
+        if (amount < 1)
+            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
+        else
+            discountTotalPrice = totalPrice + feeShip - amount;
+
 
         Order order = new Order();
 
@@ -65,9 +79,10 @@ public class OrderServiceImpl implements OrderService {
         order.setCreateDate(LocalDateTime.now());
         order.setOrderStatus(orderStatusRepository.findById(1L).orElse(null));
         order.setTotalItems(cart.getTotalItems());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setPaymentMethod(paymentMethod);
+        order.setVoucher(voucher);
+        order.setTotalPrice(discountTotalPrice);
         order.setAddress(savedAddress);
+        order.setPaymentMethod(paymentMethod);
 
         Order createdOrder = orderRepository.save(order);
 

@@ -22,19 +22,24 @@ public class PaymentMethodBank {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(nullable = false)
-    String owner;
-    @Column(length = 20, nullable = false)
-    String creditCard;
-    @Column(nullable = false)
-    Float totalPrice;
-    @Column(nullable = false)
-    LocalDateTime date;
+    @Column(name = "transaction_no")
+    Long transactionNo;
+    Double amount;
+    @Column(name = "pay_date")
+    LocalDateTime payDate;
+    @Column(name = "card_type")
+    String cardType;
+    @Column(name = "bank_tran_no")
+    String bankTranNo;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
     PaymentMethod paymentMethod;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "bank_id", referencedColumnName = "id")
     Bank bank;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    Order order;
 
 }

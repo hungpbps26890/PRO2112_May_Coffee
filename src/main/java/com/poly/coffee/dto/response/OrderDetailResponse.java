@@ -16,7 +16,6 @@ public class OrderDetailResponse {
     Long id;
     String note;
     Long drinkToppingId;
-    Voucher voucher;
     Integer drinkSizeId;
     Order order;
 }

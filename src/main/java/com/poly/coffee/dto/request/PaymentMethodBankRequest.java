@@ -19,7 +19,12 @@ public class PaymentMethodBankRequest {
     String creditCard;
     Float totalPrice;
     LocalDateTime date;
-    PaymentMethod paymentMethod;
-    Bank bank;
-    List<Order> orders;
+    Long transactionNo;
+    Double amount;
+    LocalDateTime payDate;
+    String cardType;
+    String bankTranNo;
+    Integer paymentMethodId;
+    Integer bankId;
+    Long orderId;
 }

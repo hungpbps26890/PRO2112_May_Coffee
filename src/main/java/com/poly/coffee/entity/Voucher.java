@@ -38,5 +38,5 @@ public class Voucher {
     VoucherType voucherType;
     @JsonIgnore
     @OneToMany(mappedBy = "voucher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<OrderDetail> orderDetails = new ArrayList<>();
+    List<Order> orders = new ArrayList<>();
 }

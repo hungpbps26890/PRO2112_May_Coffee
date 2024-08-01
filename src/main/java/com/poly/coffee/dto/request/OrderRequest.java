@@ -2,6 +2,7 @@ package com.poly.coffee.dto.request;
 
 import com.poly.coffee.entity.Address;
 import com.poly.coffee.entity.PaymentMethod;
+import com.poly.coffee.entity.Voucher;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,4 +14,6 @@ import lombok.experimental.FieldDefaults;
 public class OrderRequest {
     Address address;
     PaymentMethod paymentMethod;
+    Voucher voucher;
+    Float feeShip;
 }

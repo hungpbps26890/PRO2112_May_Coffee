@@ -42,7 +42,7 @@ public class PaymentMethodBankController {
     public ApiResponse<PaymentMethodBankResponse> post(@RequestBody PaymentMethodBankRequest request) {
         return ApiResponse.<PaymentMethodBankResponse>builder()
                 .code(StatusCode.SUCCESS_CODE)
-                .message("Deleted successfully!")
+                .message("Created successfully!")
                 .result(service.create(request))
                 .build();
     }

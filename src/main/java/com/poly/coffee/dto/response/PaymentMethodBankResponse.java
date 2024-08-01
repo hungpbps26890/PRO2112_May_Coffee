@@ -22,7 +22,12 @@ public class PaymentMethodBankResponse {
     String creditCard;
     Float totalPrice;
     LocalDateTime date;
+    Long transactionNo;
+    Double amount;
+    LocalDateTime payDate;
+    String cardType;
+    String bankTranNo;
     PaymentMethod paymentMethod;
     Bank bank;
-    List<Order> orders;
+    Order order;
 }

@@ -1,9 +1,6 @@
 package com.poly.coffee.dto.response;
 
-import com.poly.coffee.entity.Address;
-import com.poly.coffee.entity.OrderItem;
-import com.poly.coffee.entity.OrderStatus;
-import com.poly.coffee.entity.PaymentMethod;
+import com.poly.coffee.entity.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,9 +18,12 @@ public class OrderResponse {
     Double totalPrice;
     LocalDateTime createDate;
     Boolean paymentStatus;
+    PaymentMethod paymentMethod;
     List<OrderItem> orderItems;
     UserResponse user;
     OrderStatus orderStatus;
-    PaymentMethod paymentMethod;
     Address address;
+    PaymentMethodBank paymentMethodBank;
+    Voucher voucher;
+    Review review;
 }
