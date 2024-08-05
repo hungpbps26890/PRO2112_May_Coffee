@@ -56,6 +56,7 @@ public class Order {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Review review;
 }
