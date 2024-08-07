@@ -22,6 +22,6 @@ public class UserRequest {
     LocalDate birthday;
     String phoneNumber;
     String image;
-    Boolean isActive;
+    Boolean isActive = true;
     List<Order> orders;
 }

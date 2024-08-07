@@ -1,9 +1,6 @@
 package com.poly.coffee.service.impl;
 
-import com.poly.coffee.dto.request.ChangePasswordRequest;
-import com.poly.coffee.dto.request.UserCreationRequest;
-import com.poly.coffee.dto.request.UserUpdateMyInfoRequest;
-import com.poly.coffee.dto.request.UserUpdateRequest;
+import com.poly.coffee.dto.request.*;
 import com.poly.coffee.dto.response.UserResponse;
 import com.poly.coffee.entity.Cart;
 import com.poly.coffee.entity.Role;
@@ -14,6 +11,7 @@ import com.poly.coffee.exception.ErrorCode;
 import com.poly.coffee.mapper.UserMapper;
 import com.poly.coffee.repository.CartRepository;
 import com.poly.coffee.repository.RoleRepository;
+import com.poly.coffee.repository.UserReponsitory;
 import com.poly.coffee.repository.UserRepository;
 import com.poly.coffee.service.MailService;
 import com.poly.coffee.service.UserService;
@@ -28,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -45,6 +44,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     PasswordEncoder passwordEncoder;
+    private final UserReponsitory userReponsitory;
 
     MailService mailService;
 
@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
 //    @PreAuthorize("hasAuthority('UPDATE_DATA')")
     @Override
     public UserResponse updateUser(Long id, UserUpdateRequest request) {
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -117,6 +118,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+
     @Override
     public UserResponse updateMyInfo(UserUpdateMyInfoRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -125,6 +127,16 @@ public class UserServiceImpl implements UserService {
         User user = getUserByEmail(email);
 
         userMapper.updateMyInfo(user, request);
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public UserResponse lockUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        user.setIsActive(false);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -160,6 +172,7 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new AppException(ErrorCode.INVALID_CHANGE_PASSWORD);
         }
+
     }
 
     @Override
