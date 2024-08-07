@@ -61,30 +61,28 @@ public class OrderServiceImpl implements OrderService {
         PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethod().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
 
-        Double totalPrice = cart.getTotalPrice();
-        Float feeShip = request.getFeeShip();
-        Float amount = 0f;
-
-        Double discountTotalPrice;
-        if (amount < 1)
-            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
-        else
-            discountTotalPrice = totalPrice + feeShip - amount;
-
 
         Order order = new Order();
-
         order.setUser(user);
         order.setCreateDate(LocalDateTime.now());
         order.setOrderStatus(orderStatusRepository.findById(1L).orElse(null));
         order.setTotalItems(cart.getTotalItems());
 
+        Double totalPrice = cart.getTotalPrice();
+        Float feeShip = request.getFeeShip();
+        Float amount = 0f;
         if (request.getVoucher().getId() != null) {
             Long voucherId = request.getVoucher().getId();
             Voucher voucher = voucherRepository.findById(voucherId)
                     .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
             order.setVoucher(voucher);
+            amount = voucher.getAmount();
         }
+        Double discountTotalPrice;
+        if (amount < 1)
+            discountTotalPrice = Math.ceil((totalPrice + feeShip) * (1 - amount));
+        else
+            discountTotalPrice = Math.ceil(totalPrice + feeShip - amount);
 
         order.setTotalPrice(discountTotalPrice);
         order.setAddress(savedAddress);
