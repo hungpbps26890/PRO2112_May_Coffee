@@ -67,11 +67,14 @@ public class OrderServiceImpl implements OrderService {
         Float feeShip = request.getFeeShip();
         Float amount = voucher.getAmount();
         Double discountTotalPrice;
-        if (amount < 1)
-            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
-        else
-            discountTotalPrice = totalPrice + feeShip - amount;
 
+        if (amount < 1) {
+            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
+            discountTotalPrice = (double) (Math.round(discountTotalPrice / 1000) * 1000);
+        } else {
+            discountTotalPrice = totalPrice + feeShip - amount;
+            discountTotalPrice = (double) (Math.round(discountTotalPrice / 1000) * 1000);
+        }
 
         Order order = new Order();
 
@@ -134,14 +137,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse getOrderById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
         return orderMapper.toOrderResponse(order);
     }
 
     @Override
     public OrderResponse updateOrderStatus(UpdateOrderStatusRequest request) {
         Order order = orderRepository.findById(request.getId())
-                .orElseThrow(()-> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));
 
         OrderStatus orderStatus = orderStatusRepository.findById(request.getOrderStatus().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_NOT_FOUND));

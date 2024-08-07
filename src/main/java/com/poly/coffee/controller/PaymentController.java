@@ -85,23 +85,23 @@ public class PaymentController {
             String orderInfo = request.getParameter("vnp_OrderInfo");
             LocalDateTime payDate = handleVnpPayDate(request.getParameter("vnp_PayDate"));
 
-            PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
-            paymentMethodBank.setTransactionNo(transactionNo);
-            paymentMethodBank.setAmount(amount);
-            paymentMethodBank.setPayDate(payDate);
-            paymentMethodBank.setCardType(cardType);
-            paymentMethodBank.setBankTranNo(bankTranNo);
-            if (bankCode.equals("NCB"))
-                paymentMethodBank.setPaymentMethodId(13);
-            paymentMethodBank.setBankId(12);
-            paymentMethodBank.setOrderId(orderId);
-
-            paymentMethodBankService.create(paymentMethodBank);
+//            PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
+//            paymentMethodBank.setTransactionNo(transactionNo);
+//            paymentMethodBank.setAmount(amount);
+//            paymentMethodBank.setPayDate(payDate);
+//            paymentMethodBank.setCardType(cardType);
+//            paymentMethodBank.setBankTranNo(bankTranNo);
+//            if (bankCode.equals("NCB"))
+//                paymentMethodBank.setPaymentMethodId(13);
+//            paymentMethodBank.setBankId(12);
+//            paymentMethodBank.setOrderId(orderId);
+//
+//            paymentMethodBankService.create(paymentMethodBank);
             //End region
 
             // Send Confirm Payment Email
-            SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String formattedDate = targetFormat.format(payDate);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            String formattedDate = formatter.format(payDate);
 
             Map<String, Object> items = new HashMap<>();
             items.put(Constant.EmailTemplateData.TRANSACTION_NO_KEY, transactionNo);
