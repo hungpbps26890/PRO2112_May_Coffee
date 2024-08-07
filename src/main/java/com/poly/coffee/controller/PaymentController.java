@@ -1,16 +1,16 @@
 package com.poly.coffee.controller;
 
+import com.poly.coffee.constant.Constant;
 import com.poly.coffee.constant.StatusCode;
 import com.poly.coffee.dto.request.PaymentMethodBankRequest;
 import com.poly.coffee.dto.request.UpdateOrderStatusRequest;
-import com.poly.coffee.dto.response.ApiResponse;
-import com.poly.coffee.dto.response.BankResponse;
-import com.poly.coffee.dto.response.PaymentMethodResponse;
-import com.poly.coffee.dto.response.VNPayResponse;
+import com.poly.coffee.dto.response.*;
 import com.poly.coffee.entity.*;
+import com.poly.coffee.mapper.UserMapper;
 import com.poly.coffee.repository.BankRepository;
 import com.poly.coffee.repository.OrderRepository;
 import com.poly.coffee.repository.PaymentMethodRepository;
+import com.poly.coffee.service.MailService;
 import com.poly.coffee.service.OrderService;
 import com.poly.coffee.service.PaymentMethodBankService;
 import com.poly.coffee.service.PaymentService;
@@ -26,8 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RequiredArgsConstructor
@@ -43,6 +46,10 @@ public class PaymentController {
     BankRepository bankRepository;
     OrderRepository orderRepository;
 
+    UserMapper userMapper;
+
+    MailService mailService;
+
 
     @GetMapping("/vn-pay")
     public ApiResponse<VNPayResponse> pay(HttpServletRequest request) {
@@ -57,6 +64,11 @@ public class PaymentController {
     public void payCallbackHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String status = request.getParameter("vnp_ResponseCode");
         long orderId = Integer.parseInt(request.getParameter("orderId"));
+
+        OrderResponse orderResponse = orderService.getOrderById(orderId);
+        UserResponse userResponse = orderResponse.getUser();
+        User user = userMapper.userResponseToUser(userResponse);
+
         if (status.equals("00")) {
             UpdateOrderStatusRequest updateOrderStatusRequest = UpdateOrderStatusRequest.builder()
                     .id(orderId)
@@ -70,6 +82,7 @@ public class PaymentController {
             String cardType = request.getParameter("vnp_CardType");
             String bankTranNo = request.getParameter("vnp_BankTranNo");
             String bankCode = request.getParameter("vnp_BankCode");
+            String orderInfo = request.getParameter("vnp_OrderInfo");
             LocalDateTime payDate = handleVnpPayDate(request.getParameter("vnp_PayDate"));
 
             PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
@@ -85,6 +98,19 @@ public class PaymentController {
 
             paymentMethodBankService.create(paymentMethodBank);
             //End region
+
+            // Send Confirm Payment Email
+            SimpleDateFormat targetFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String formattedDate = targetFormat.format(payDate);
+
+            Map<String, Object> items = new HashMap<>();
+            items.put(Constant.EmailTemplateData.TRANSACTION_NO_KEY, transactionNo);
+            items.put(Constant.EmailTemplateData.BANK_CODE_KEY, bankCode);
+            items.put(Constant.EmailTemplateData.AMOUNT_KEY, amount);
+            items.put(Constant.EmailTemplateData.ORDER_INFO_KEY, orderInfo);
+            items.put(Constant.EmailTemplateData.PAY_DATE_KEY, formattedDate);
+
+            mailService.sendConfirmPayment(user, items);
 
             response.sendRedirect("http://localhost:3000/order");
         } else {

@@ -2,6 +2,7 @@ package com.poly.coffee.service;
 
 import com.poly.coffee.dto.request.*;
 import com.poly.coffee.dto.response.UserResponse;
+import com.poly.coffee.entity.User;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface UserService {
     void deleteUser(Long id);
 
     void changePassword(ChangePasswordRequest request);
+
+    User getUserByEmail(String email);
 }

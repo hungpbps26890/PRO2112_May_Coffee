@@ -29,7 +29,9 @@ public class PaymentServiceImpl implements PaymentService {
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
         vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
 
-        vnpParamsMap.put("vnp_ReturnUrl", this.vnp_ReturnUrl + "?orderId=" + orderId + "&vnp_BankTranNo=VNP14226112");
+        vnpParamsMap.put("vnp_OrderInfo", "May Coffee thanh toan don hang " + orderId);
+
+        vnpParamsMap.put("vnp_ReturnUrl", this.vnp_ReturnUrl + "?orderId=" + orderId);
 
         if (bankCode != null && !bankCode.isEmpty()) {
             vnpParamsMap.put("vnp_BankCode", bankCode);
