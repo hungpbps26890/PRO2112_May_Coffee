@@ -172,14 +172,12 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new AppException(ErrorCode.INVALID_CHANGE_PASSWORD);
         }
-<<<<<<< HEAD
-=======
+
     }
 
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
->>>>>>> 315862f33c5bd5792c4894668ee3fc36fc2779c5
     }
 }
