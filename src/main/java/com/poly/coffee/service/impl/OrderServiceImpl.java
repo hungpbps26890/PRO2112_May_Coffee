@@ -52,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse createOrder(OrderRequest request) {
+
         User user = findUser();
 
         Cart cart = cartRepository.findByUserId(user.getId());
@@ -60,29 +61,30 @@ public class OrderServiceImpl implements OrderService {
 
         PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethod().getId())
                 .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
-        Voucher voucher = voucherRepository.findById(request.getVoucher().getId())
-                .orElseThrow(() -> new AppException(ErrorCode.VOUCHER_NOT_FOUND));
 
-        Double totalPrice = cart.getTotalPrice();
-        Float feeShip = request.getFeeShip();
-        Float amount = voucher.getAmount();
-        Double discountTotalPrice;
-
-        if (amount < 1) {
-            discountTotalPrice = (totalPrice + feeShip) * (1 - amount);
-            discountTotalPrice = (double) (Math.round(discountTotalPrice / 1000) * 1000);
-        } else {
-            discountTotalPrice = totalPrice + feeShip - amount;
-            discountTotalPrice = (double) (Math.round(discountTotalPrice / 1000) * 1000);
-        }
 
         Order order = new Order();
-
         order.setUser(user);
         order.setCreateDate(LocalDateTime.now());
         order.setOrderStatus(orderStatusRepository.findById(1L).orElse(null));
         order.setTotalItems(cart.getTotalItems());
-        order.setVoucher(voucher);
+
+        Double totalPrice = cart.getTotalPrice();
+        Float feeShip = request.getFeeShip();
+        Float amount = 0f;
+        if (request.getVoucher().getId() != null) {
+            Long voucherId = request.getVoucher().getId();
+            Voucher voucher = voucherRepository.findById(voucherId)
+                    .orElseThrow(() -> new AppException(ErrorCode.PAYMENT_METHOD_NOT_FOUND));
+            order.setVoucher(voucher);
+            amount = voucher.getAmount();
+        }
+        Double discountTotalPrice;
+        if (amount < 1)
+            discountTotalPrice = Math.ceil((totalPrice + feeShip) * (1 - amount));
+        else
+            discountTotalPrice = Math.ceil(totalPrice + feeShip - amount);
+
         order.setTotalPrice(discountTotalPrice);
         order.setAddress(savedAddress);
         order.setPaymentMethod(paymentMethod);

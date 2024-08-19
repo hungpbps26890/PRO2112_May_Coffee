@@ -14,6 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserId(Long userId);
 
-    @Query("SELECT new RevenueReport(CAST(o.createDate AS date), SUM(o.totalPrice), COUNT(o)) FROM Order o WHERE o.createDate BETWEEN ?1 AND ?2 GROUP BY CAST(o.createDate AS date)")
+    @Query("SELECT new RevenueReport(CAST(o.createDate AS date), SUM(o.totalPrice), COUNT(o)) FROM Order o WHERE o.createDate BETWEEN ?1 AND ?2 AND o.paymentStatus = TRUE GROUP BY CAST(o.createDate AS date)")
     List<RevenueReport> getRevenueReport(LocalDateTime startDatetime, LocalDateTime endDatetime);
 }
