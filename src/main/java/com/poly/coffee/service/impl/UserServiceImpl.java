@@ -172,7 +172,6 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new AppException(ErrorCode.INVALID_CHANGE_PASSWORD);
         }
-
     }
 
     @Override
