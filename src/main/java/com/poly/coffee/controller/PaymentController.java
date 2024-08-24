@@ -85,18 +85,18 @@ public class PaymentController {
             String orderInfo = request.getParameter("vnp_OrderInfo");
             LocalDateTime payDate = handleVnpPayDate(request.getParameter("vnp_PayDate"));
 
-            PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
-            paymentMethodBank.setTransactionNo(transactionNo);
-            paymentMethodBank.setAmount(amount);
-            paymentMethodBank.setPayDate(payDate);
-            paymentMethodBank.setCardType(cardType);
-            paymentMethodBank.setBankTranNo(bankTranNo);
-            if (bankCode.equals("NCB"))
-                paymentMethodBank.setPaymentMethodId(13);
-            paymentMethodBank.setBankId(12);
-            paymentMethodBank.setOrderId(orderId);
+//            PaymentMethodBankRequest paymentMethodBank = new PaymentMethodBankRequest();
+//            paymentMethodBank.setTransactionNo(transactionNo);
+//            paymentMethodBank.setAmount(amount);
+//            paymentMethodBank.setPayDate(payDate);
+//            paymentMethodBank.setCardType(cardType);
+//            paymentMethodBank.setBankTranNo(bankTranNo);
+//            if (bankCode.equals("NCB"))
+//                paymentMethodBank.setPaymentMethodId(13);
+//            paymentMethodBank.setBankId(12);
+//            paymentMethodBank.setOrderId(orderId);
 
-            paymentMethodBankService.create(paymentMethodBank);
+//            paymentMethodBankService.create(paymentMethodBank);
             //End region
 
             // Send Confirm Payment Email
