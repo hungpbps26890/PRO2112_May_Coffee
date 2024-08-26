@@ -179,6 +179,21 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
+    public DrinkResponse updateDrinkStatus(Long id) {
+        Drink drink = findDrinkById(id);
+        boolean isActive = drink.getIsActive();
+
+        if (isActive)
+            drink.setIsActive(false);
+        else
+            drink.setIsActive(true);
+
+        Drink updatedDrink = drinkRepository.save(drink);
+
+        return drinkMapper.toDrinkResponse(drinkRepository.save(updatedDrink));
+    }
+
+    @Override
     public void deleteDrink(Long id) {
         Drink drink = findDrinkById(id);
         drinkRepository.deleteById(id);

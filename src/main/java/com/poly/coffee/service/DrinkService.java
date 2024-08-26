@@ -23,6 +23,8 @@ public interface DrinkService {
 
     DrinkResponse updateDrink(Long id, DrinkRequest request);
 
+    DrinkResponse updateDrinkStatus(Long id);
+
     void deleteDrink(Long id);
 
     List<DrinkResponse> getDrinksByCategoryId(Long categoryId);

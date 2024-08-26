@@ -117,6 +117,16 @@ public class DrinkController {
                 .build();
     }
 
+    @Operation(summary = "Update drink status")
+    @PutMapping("/status/{id}")
+    public ApiResponse<DrinkResponse> updateDrinkStatus(@PathVariable long id) {
+        return ApiResponse.<DrinkResponse>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .result(drinkService.updateDrinkStatus(id))
+                .message("Drink status was updated successfully")
+                .build();
+    }
+
     @Operation(summary = "Delete drink by id")
     @DeleteMapping("/{id}")
     public ApiResponse<String> deleteDrink(@PathVariable Long id) {
