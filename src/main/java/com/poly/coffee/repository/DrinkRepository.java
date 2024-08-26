@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface DrinkRepository extends JpaRepository<Drink, Long> {
 
-    List<Drink> findByCategoryId(Long categoryId);
+    List<Drink> findByCategoryIdAndIsActive(Long categoryId, boolean isActive);
+
+    List<Drink> findByIsActive(boolean isActive);
 }

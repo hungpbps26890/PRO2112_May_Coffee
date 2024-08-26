@@ -83,6 +83,14 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
+    public List<DrinkResponse> getAllDrinksActive() {
+        return drinkRepository.findByIsActive(true)
+                .stream()
+                .map(drinkMapper::toDrinkResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<DrinkResponse> getAllDrinks() {
 
         return drinkRepository.findAll()
@@ -201,7 +209,7 @@ public class DrinkServiceImpl implements DrinkService {
 
     @Override
     public List<DrinkResponse> getDrinksByCategoryId(Long categoryId) {
-        return drinkRepository.findByCategoryId(categoryId)
+        return drinkRepository.findByCategoryIdAndIsActive(categoryId, true)
                 .stream()
                 .map(drinkMapper::toDrinkResponse)
                 .collect(Collectors.toList());

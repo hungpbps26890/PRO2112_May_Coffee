@@ -28,8 +28,17 @@ public class DrinkController {
 
     DrinkService drinkService;
 
-    @Operation(summary = "Get all drinks")
+    @Operation(summary = "Get all drinks active")
     @GetMapping
+    public ApiResponse<List<DrinkResponse>> getAllDrinksActive() {
+        return ApiResponse.<List<DrinkResponse>>builder()
+                .code(StatusCode.SUCCESS_CODE)
+                .result(drinkService.getAllDrinksActive())
+                .build();
+    }
+
+    @Operation(summary = "Get all drinks")
+    @GetMapping("/admin")
     public ApiResponse<List<DrinkResponse>> getAllDrinks() {
         return ApiResponse.<List<DrinkResponse>>builder()
                 .code(StatusCode.SUCCESS_CODE)

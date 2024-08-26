@@ -11,6 +11,8 @@ public interface DrinkService {
 
     DrinkResponse createDrink(DrinkRequest request);
 
+    List<DrinkResponse> getAllDrinksActive();
+
     List<DrinkResponse> getAllDrinks();
 
     PageResponse<?> getDrinksPagination(int pageNo, int pageSize, String sortBy);
