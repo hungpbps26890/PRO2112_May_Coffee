@@ -136,7 +136,14 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
-        user.setIsActive(false);
+        boolean isActive = user.getIsActive();
+
+        if (isActive) {
+            user.setIsActive(false);
+        } else {
+            user.setIsActive(true);
+        }
+
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

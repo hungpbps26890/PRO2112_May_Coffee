@@ -85,7 +85,7 @@ public class UserController {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(userService.lockUser(id));
-        apiResponse.setMessage("Clock user successfully!");
+        apiResponse.setMessage("Update user status successfully!");
         apiResponse.setCode(StatusCode.SUCCESS_CODE);
 
         return apiResponse;
